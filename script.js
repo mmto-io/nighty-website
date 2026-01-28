@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(element);
     });
     
-    // Smooth scroll for anchor links
+    // Smooth scroll for anchor links with magical easing
     document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
         anchor.addEventListener('click', function(e) {
             e.preventDefault();
@@ -37,35 +37,45 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Form submission handling
+    // Enhanced form submission handling with magical feedback
     const emailForm = document.querySelector('.email-form');
     if (emailForm) {
         emailForm.addEventListener('submit', function(e) {
             const button = this.querySelector('button[type="submit"]');
             const originalText = button.textContent;
             
+            // Add magical sparkle effect
+            button.classList.add('sparkle');
+            
             // Update button to show loading state
-            button.textContent = 'Joining...';
+            button.textContent = '✨ Joining...';
             button.disabled = true;
             
             // Reset button after a delay (formspree will redirect or show success)
             setTimeout(function() {
                 button.textContent = originalText;
                 button.disabled = false;
+                button.classList.remove('sparkle');
             }, 2000);
         });
     }
     
-    // Add subtle parallax effect to hero section
+    // Enhanced parallax effect for hero section with stars
     let ticking = false;
     
-    function updateHeroParallax() {
+    function updateParallaxEffects() {
         const scrolled = window.pageYOffset;
-        const parallax = document.querySelector('.hero');
-        const speed = scrolled * 0.5;
+        const stars = document.querySelector('.stars');
+        const heroIcon = document.querySelector('.hero-icon');
         
-        if (parallax) {
-            parallax.style.transform = `translateY(${speed}px)`;
+        if (stars) {
+            // Subtle star movement
+            stars.style.transform = `translateY(${scrolled * 0.2}px)`;
+        }
+        
+        if (heroIcon) {
+            // Gentle floating effect for the owl icon
+            heroIcon.style.transform = `translateY(${Math.sin(Date.now() * 0.001) * 5}px)`;
         }
         
         ticking = false;
@@ -73,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function requestTick() {
         if (!ticking) {
-            requestAnimationFrame(updateHeroParallax);
+            requestAnimationFrame(updateParallaxEffects);
             ticking = true;
         }
     }
@@ -81,23 +91,81 @@ document.addEventListener('DOMContentLoaded', function() {
     // Only add parallax on larger screens and if user doesn't prefer reduced motion
     if (window.innerWidth > 768 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         window.addEventListener('scroll', requestTick, { passive: true });
+        
+        // Also run the floating animation
+        setInterval(function() {
+            const heroIcon = document.querySelector('.hero-icon');
+            if (heroIcon && window.pageYOffset < 500) {
+                heroIcon.style.transform = `translateY(${Math.sin(Date.now() * 0.001) * 3}px)`;
+            }
+        }, 16); // ~60fps
     }
     
-    // Add hover effects for interactive elements
-    const interactiveElements = document.querySelectorAll('.step, .prop, .cta-button');
+    // Enhanced hover effects for interactive elements
+    const interactiveElements = document.querySelectorAll('.step, .prop, .cta-button, .app-icon');
     interactiveElements.forEach(function(element) {
         element.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-5px)';
+            if (this.classList.contains('app-icon')) {
+                // Special effect for the owl icon
+                this.style.transform = 'scale(1.05) rotate(2deg)';
+            } else if (this.classList.contains('cta-button')) {
+                this.style.transform = 'translateY(-3px) scale(1.02)';
+            } else {
+                this.style.transform = 'translateY(-8px)';
+            }
         });
         
         element.addEventListener('mouseleave', function() {
-            if (this.classList.contains('cta-button')) {
-                this.style.transform = 'translateY(0)';
+            if (this.classList.contains('app-icon')) {
+                this.style.transform = 'scale(1) rotate(0deg)';
             } else {
-                this.style.transform = 'translateY(0)';
+                this.style.transform = 'translateY(0) scale(1)';
             }
         });
     });
+    
+    // Add magical click effect to the owl icon
+    const appIcon = document.querySelector('.app-icon');
+    if (appIcon) {
+        appIcon.addEventListener('click', function() {
+            // Create sparkle effect
+            createSparkles(this);
+        });
+    }
+    
+    // Sparkle effect function
+    function createSparkles(element) {
+        const rect = element.getBoundingClientRect();
+        const sparkleCount = 8;
+        
+        for (let i = 0; i < sparkleCount; i++) {
+            const sparkle = document.createElement('div');
+            sparkle.innerHTML = '✨';
+            sparkle.style.position = 'fixed';
+            sparkle.style.left = (rect.left + rect.width / 2) + 'px';
+            sparkle.style.top = (rect.top + rect.height / 2) + 'px';
+            sparkle.style.fontSize = '16px';
+            sparkle.style.pointerEvents = 'none';
+            sparkle.style.zIndex = '9999';
+            sparkle.style.color = '#FFD93D';
+            
+            document.body.appendChild(sparkle);
+            
+            // Animate sparkle
+            const angle = (i / sparkleCount) * Math.PI * 2;
+            const distance = 60;
+            const targetX = Math.cos(angle) * distance;
+            const targetY = Math.sin(angle) * distance;
+            
+            sparkle.animate([
+                { transform: 'translate(0, 0) scale(0)', opacity: 1 },
+                { transform: `translate(${targetX}px, ${targetY}px) scale(1)`, opacity: 0 }
+            ], {
+                duration: 800,
+                easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+            }).onfinish = () => sparkle.remove();
+        }
+    }
     
     // Add focus management for accessibility
     document.addEventListener('keydown', function(e) {
@@ -109,6 +177,34 @@ document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener('mousedown', function() {
         document.body.classList.remove('user-is-tabbing');
     });
+    
+    // Add some magical easter eggs
+    let konamiCode = [];
+    const konamiSequence = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'KeyB', 'KeyA'];
+    
+    document.addEventListener('keydown', function(e) {
+        konamiCode.push(e.code);
+        if (konamiCode.length > konamiSequence.length) {
+            konamiCode.shift();
+        }
+        
+        if (konamiCode.join(',') === konamiSequence.join(',')) {
+            // Easter egg: make it extra magical
+            document.body.style.animation = 'rainbow 2s ease-in-out';
+            createMagicalEffect();
+            konamiCode = [];
+        }
+    });
+    
+    function createMagicalEffect() {
+        const stars = document.querySelector('.stars');
+        if (stars) {
+            stars.style.animation = 'magicalTwinkle 3s ease-in-out';
+            setTimeout(() => {
+                stars.style.animation = '';
+            }, 3000);
+        }
+    }
 });
 
 // Handle window resize events
