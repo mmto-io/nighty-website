@@ -4,145 +4,601 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nighty - Bedtime Stories in Your Voice</title>
-    
-    <!-- SEO Meta Tags -->
-    <meta name="description" content="Create personalized bedtime stories for your kids using your own voice. Record once, generate endless magical stories that help children fall asleep peacefully.">
-    <meta name="keywords" content="bedtime stories, voice cloning, kids app, children's stories, personalized stories, parenting, sleep">
-    <meta name="author" content="MMTO">
-    
-    <!-- Open Graph Meta Tags -->
+    <meta name="description" content="Create magical moments with personalized bedtime stories in your voice. Even when you're away, your child can hear stories told by you.">
     <meta property="og:title" content="Nighty - Bedtime Stories in Your Voice">
-    <meta property="og:description" content="Create personalized bedtime stories for your kids using your own voice. Record once, generate endless magical stories.">
-    <meta property="og:image" content="/og-image.svg">
+    <meta property="og:description" content="Create magical moments with personalized bedtime stories in your voice. Even when you're away, your child can hear stories told by you.">
     <meta property="og:url" content="https://getnighty.com">
     <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Nighty">
-    
-    <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Nighty - Bedtime Stories in Your Voice">
-    <meta name="twitter:description" content="Create personalized bedtime stories for your kids using your own voice.">
-    <meta name="twitter:image" content="/og-image.svg">
-    
-    <!-- Favicon -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌙</text></svg>">
-    
-    <!-- Stylesheet -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌙</text></svg>">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #1A1B3A;
+            color: #FFF8F0;
+            overflow-x: hidden;
+        }
+
+        /* Twinkling Stars Animation */
+        .stars-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .star {
+            position: absolute;
+            background: #FFF8F0;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        .star:nth-child(1) { width: 3px; height: 3px; top: 10%; left: 20%; animation-delay: 0s; }
+        .star:nth-child(2) { width: 4px; height: 4px; top: 20%; left: 80%; animation-delay: 0.5s; }
+        .star:nth-child(3) { width: 3px; height: 3px; top: 30%; left: 50%; animation-delay: 1s; }
+        .star:nth-child(4) { width: 2px; height: 2px; top: 40%; left: 15%; animation-delay: 1.5s; }
+        .star:nth-child(5) { width: 3px; height: 3px; top: 50%; left: 70%; animation-delay: 2s; }
+        .star:nth-child(6) { width: 4px; height: 4px; top: 60%; left: 35%; animation-delay: 0.3s; }
+        .star:nth-child(7) { width: 3px; height: 3px; top: 70%; left: 85%; animation-delay: 1.2s; }
+        .star:nth-child(8) { width: 2px; height: 2px; top: 15%; left: 65%; animation-delay: 0.8s; }
+        .star:nth-child(9) { width: 3px; height: 3px; top: 80%; left: 25%; animation-delay: 1.7s; }
+        .star:nth-child(10) { width: 4px; height: 4px; top: 25%; left: 45%; animation-delay: 2.3s; }
+        .star:nth-child(11) { width: 3px; height: 3px; top: 35%; left: 90%; animation-delay: 0.6s; }
+        .star:nth-child(12) { width: 2px; height: 2px; top: 45%; left: 10%; animation-delay: 1.9s; }
+        .star:nth-child(13) { width: 3px; height: 3px; top: 55%; left: 60%; animation-delay: 1.1s; }
+        .star:nth-child(14) { width: 4px; height: 4px; top: 65%; left: 40%; animation-delay: 2.5s; }
+        .star:nth-child(15) { width: 3px; height: 3px; top: 75%; left: 75%; animation-delay: 0.4s; }
+        .star:nth-child(16) { width: 2px; height: 2px; top: 85%; left: 55%; animation-delay: 1.4s; }
+        .star:nth-child(17) { width: 3px; height: 3px; top: 12%; left: 30%; animation-delay: 2.1s; }
+        .star:nth-child(18) { width: 4px; height: 4px; top: 90%; left: 15%; animation-delay: 0.7s; }
+        .star:nth-child(19) { width: 3px; height: 3px; top: 5%; left: 95%; animation-delay: 1.6s; }
+        .star:nth-child(20) { width: 2px; height: 2px; top: 95%; left: 50%; animation-delay: 2.2s; }
+        .star:nth-child(21) { width: 3px; height: 3px; top: 8%; left: 42%; animation-delay: 0.9s; }
+        .star:nth-child(22) { width: 4px; height: 4px; top: 18%; left: 12%; animation-delay: 1.8s; }
+        .star:nth-child(23) { width: 3px; height: 3px; top: 28%; left: 72%; animation-delay: 0.2s; }
+        .star:nth-child(24) { width: 2px; height: 2px; top: 38%; left: 48%; animation-delay: 2.4s; }
+        .star:nth-child(25) { width: 3px; height: 3px; top: 48%; left: 88%; animation-delay: 1.3s; }
+        .star:nth-child(26) { width: 4px; height: 4px; top: 58%; left: 18%; animation-delay: 0.1s; }
+        .star:nth-child(27) { width: 3px; height: 3px; top: 68%; left: 62%; animation-delay: 2.6s; }
+        .star:nth-child(28) { width: 2px; height: 2px; top: 78%; left: 38%; animation-delay: 1.0s; }
+        .star:nth-child(29) { width: 3px; height: 3px; top: 88%; left: 78%; animation-delay: 0.5s; }
+        .star:nth-child(30) { width: 4px; height: 4px; top: 22%; left: 92%; animation-delay: 2.0s; }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.3); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Content */
+        .content {
+            position: relative;
+            z-index: 10;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px;
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .owl-container {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            margin-bottom: 40px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .moon-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(255, 248, 240, 0.3) 0%, rgba(255, 248, 240, 0) 70%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .owl-illustration {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            border-radius: 30px;
+            object-fit: cover;
+            z-index: 1;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 40px;
+            letter-spacing: -0.02em;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 30px;
+            letter-spacing: -0.02em;
+            max-width: 800px;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            opacity: 0.8;
+            margin-bottom: 50px;
+            max-width: 600px;
+            line-height: 1.6;
+        }
+
+        .cta-button {
+            background-color: #FF8A5C;
+            color: #1A1B3A;
+            font-size: 1.25rem;
+            font-weight: 600;
+            padding: 20px 50px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-button:hover {
+            background-color: #ff9d73;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 138, 92, 0.3);
+        }
+
+        /* Gradient Divider */
+        .gradient-divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #4A90B8, transparent);
+            margin: 0 auto;
+            max-width: 800px;
+        }
+
+        /* How It Works Section */
+        .how-it-works {
+            padding: 120px 20px;
+            background: linear-gradient(180deg, #1A1B3A 0%, #222449 100%);
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 80px;
+            letter-spacing: -0.02em;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .step {
+            text-align: center;
+            background: #252750;
+            padding: 50px 30px;
+            border-radius: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .step:hover {
+            transform: translateY(-5px);
+        }
+
+        .step-icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 30px;
+        }
+
+        .step-number {
+            font-size: 1rem;
+            color: #FF8A5C;
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .step h3 {
+            font-size: 1.75rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .step p {
+            font-size: 1.125rem;
+            opacity: 0.7;
+            line-height: 1.6;
+        }
+
+        /* Email Capture Section */
+        .email-capture {
+            padding: 120px 20px;
+            text-align: center;
+        }
+
+        .email-capture h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            letter-spacing: -0.02em;
+        }
+
+        .email-capture p {
+            font-size: 1.25rem;
+            opacity: 0.7;
+            margin-bottom: 40px;
+        }
+
+        .email-form {
+            max-width: 500px;
+            margin: 0 auto;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .email-input {
+            flex: 1;
+            min-width: 250px;
+            padding: 18px 25px;
+            font-size: 1.125rem;
+            border: 2px solid rgba(255, 248, 240, 0.1);
+            border-radius: 50px;
+            background-color: rgba(255, 248, 240, 0.05);
+            color: #FFF8F0;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .email-input::placeholder {
+            color: rgba(255, 248, 240, 0.4);
+        }
+
+        .email-input:focus {
+            border-color: #4A90B8;
+            background-color: rgba(255, 248, 240, 0.08);
+        }
+
+        .submit-button {
+            padding: 18px 40px;
+            font-size: 1.125rem;
+            font-weight: 600;
+            background-color: #FF8A5C;
+            color: #1A1B3A;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-button:hover {
+            background-color: #ff9d73;
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        footer {
+            padding: 60px 20px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 248, 240, 0.1);
+        }
+
+        footer p {
+            opacity: 0.5;
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 15px;
+        }
+
+        .footer-links a {
+            color: #FFF8F0;
+            opacity: 0.5;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .steps {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .owl-container {
+                width: 130px;
+                height: 130px;
+            }
+
+            .moon-glow {
+                width: 180px;
+                height: 180px;
+            }
+
+            .owl-illustration {
+                width: 130px;
+                height: 130px;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.25rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .step-icon {
+                width: 100px;
+                height: 100px;
+            }
+
+            .email-form {
+                flex-direction: column;
+            }
+
+            .email-input {
+                min-width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="stars"></div>
-        <div class="container">
-            <div class="hero-content">
-                <div class="hero-left">
-                    <div class="hero-icon">
-                        <img src="app-icon.jpg" alt="Nighty App" class="app-icon">
-                        <div class="moon-glow"></div>
+    <!-- Twinkling Stars -->
+    <div class="stars-container">
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-logo">
+            <span>🌙</span>
+            <span>Nighty</span>
+        </div>
+    </header>
+
+    <!-- Content -->
+    <div class="content">
+        <!-- Hero Section -->
+        <section class="hero">
+            <!-- Owl Illustration with Glow -->
+            <div class="owl-container">
+                <div class="moon-glow"></div>
+                <img src="/app-icon.jpg" alt="Nighty Owl" class="owl-illustration">
+            </div>
+
+            <h1>Bedtime stories in your voice</h1>
+            <p>Create magical moments with personalized stories that sound like you</p>
+            <button class="cta-button">Get Early Access</button>
+        </section>
+
+        <div class="gradient-divider"></div>
+
+        <!-- How It Works Section -->
+        <section class="how-it-works">
+            <div class="container">
+                <h2 class="section-title">How it works</h2>
+                <div class="steps">
+                    <div class="step">
+                        <svg class="step-icon" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Microphone body -->
+                            <rect x="48" y="30" width="24" height="40" rx="12" fill="#FF8A5C"/>
+                            <!-- Microphone stand -->
+                            <path d="M60 70 L60 85" stroke="#4A90B8" stroke-width="3" stroke-linecap="round"/>
+                            <path d="M50 85 L70 85" stroke="#4A90B8" stroke-width="3" stroke-linecap="round"/>
+                            <!-- Microphone cage lines -->
+                            <line x1="52" y1="40" x2="68" y2="40" stroke="#1A1B3A" stroke-width="1.5" opacity="0.3"/>
+                            <line x1="52" y1="50" x2="68" y2="50" stroke="#1A1B3A" stroke-width="1.5" opacity="0.3"/>
+                            <line x1="52" y1="60" x2="68" y2="60" stroke="#1A1B3A" stroke-width="1.5" opacity="0.3"/>
+                            <!-- Sound waves -->
+                            <path d="M 30 50 Q 25 50 25 50" stroke="#4A90B8" stroke-width="2.5" stroke-linecap="round" opacity="0.7">
+                                <animate attributeName="d" values="M 30 50 Q 25 50 25 50; M 28 50 Q 20 50 20 50; M 30 50 Q 25 50 25 50" dur="2s" repeatCount="indefinite"/>
+                            </path>
+                            <path d="M 90 50 Q 95 50 95 50" stroke="#4A90B8" stroke-width="2.5" stroke-linecap="round" opacity="0.7">
+                                <animate attributeName="d" values="M 90 50 Q 95 50 95 50; M 92 50 Q 100 50 100 50; M 90 50 Q 95 50 95 50" dur="2s" repeatCount="indefinite"/>
+                            </path>
+                            <path d="M 35 45 Q 30 50 35 55" stroke="#4A90B8" stroke-width="2.5" stroke-linecap="round" opacity="0.5">
+                                <animate attributeName="d" values="M 35 45 Q 30 50 35 55; M 33 42 Q 25 50 33 58; M 35 45 Q 30 50 35 55" dur="2s" repeatCount="indefinite"/>
+                            </path>
+                            <path d="M 85 45 Q 90 50 85 55" stroke="#4A90B8" stroke-width="2.5" stroke-linecap="round" opacity="0.5">
+                                <animate attributeName="d" values="M 85 45 Q 90 50 85 55; M 87 42 Q 95 50 87 58; M 85 45 Q 90 50 85 55" dur="2s" repeatCount="indefinite"/>
+                            </path>
+                        </svg>
+                        <div class="step-number">Step 1</div>
+                        <h3>Record your voice</h3>
+                        <p>Read a few sentences to create your unique voice profile</p>
+                    </div>
+
+                    <div class="step">
+                        <svg class="step-icon" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Book -->
+                            <path d="M30 25 L30 95 L60 85 L90 95 L90 25 L60 35 L30 25 Z" fill="#FF8A5C"/>
+                            <path d="M60 35 L60 85" stroke="#1A1B3A" stroke-width="2" opacity="0.3"/>
+                            <!-- Book pages -->
+                            <line x1="40" y1="45" x2="55" y2="45" stroke="#FFF8F0" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+                            <line x1="40" y1="55" x2="55" y2="55" stroke="#FFF8F0" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+                            <line x1="40" y1="65" x2="52" y2="65" stroke="#FFF8F0" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+                            <line x1="65" y1="45" x2="80" y2="45" stroke="#FFF8F0" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+                            <line x1="65" y1="55" x2="80" y2="55" stroke="#FFF8F0" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+                            <line x1="65" y1="65" x2="78" y2="65" stroke="#FFF8F0" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+                            <!-- Sparkles -->
+                            <g opacity="0.8">
+                                <path d="M 25 35 L 27 37 L 25 39 L 23 37 Z" fill="#4A90B8">
+                                    <animate attributeName="opacity" values="0.3;1;0.3" dur="1.5s" repeatCount="indefinite"/>
+                                </path>
+                                <path d="M 95 45 L 98 48 L 95 51 L 92 48 Z" fill="#4A90B8">
+                                    <animate attributeName="opacity" values="1;0.3;1" dur="1.5s" repeatCount="indefinite"/>
+                                </path>
+                                <path d="M 20 70 L 22 72 L 20 74 L 18 72 Z" fill="#4A90B8">
+                                    <animate attributeName="opacity" values="0.5;1;0.5" dur="1.8s" repeatCount="indefinite"/>
+                                </path>
+                                <path d="M 100 65 L 103 68 L 100 71 L 97 68 Z" fill="#4A90B8">
+                                    <animate attributeName="opacity" values="1;0.5;1" dur="1.8s" repeatCount="indefinite"/>
+                                </path>
+                            </g>
+                        </svg>
+                        <div class="step-number">Step 2</div>
+                        <h3>Choose a story</h3>
+                        <p>Pick from hundreds of beloved tales or create your own</p>
+                    </div>
+
+                    <div class="step">
+                        <svg class="step-icon" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Headphone band -->
+                            <path d="M 35 60 Q 35 25 60 25 Q 85 25 85 60" stroke="#4A90B8" stroke-width="4" stroke-linecap="round" fill="none"/>
+                            <!-- Left ear cup -->
+                            <rect x="25" y="55" width="20" height="30" rx="10" fill="#FF8A5C"/>
+                            <rect x="29" y="59" width="12" height="22" rx="6" fill="#1A1B3A" opacity="0.3"/>
+                            <!-- Right ear cup -->
+                            <rect x="75" y="55" width="20" height="30" rx="10" fill="#FF8A5C"/>
+                            <rect x="79" y="59" width="12" height="22" rx="6" fill="#1A1B3A" opacity="0.3"/>
+                            <!-- Heart -->
+                            <g transform="translate(60, 70)">
+                                <path d="M 0 0 C 0 -3 -2 -5 -5 -5 C -8 -5 -10 -3 -10 0 C -10 5 0 10 0 10 C 0 10 10 5 10 0 C 10 -3 8 -5 5 -5 C 2 -5 0 -3 0 0 Z" fill="#FFF8F0">
+                                    <animate attributeName="transform" values="scale(1); scale(1.2); scale(1)" dur="1.5s" repeatCount="indefinite"/>
+                                </path>
+                            </g>
+                            <!-- Connection points -->
+                            <line x1="35" y1="60" x2="35" y2="55" stroke="#4A90B8" stroke-width="3" stroke-linecap="round"/>
+                            <line x1="85" y1="60" x2="85" y2="55" stroke="#4A90B8" stroke-width="3" stroke-linecap="round"/>
+                        </svg>
+                        <div class="step-number">Step 3</div>
+                        <h3>Listen together</h3>
+                        <p>Enjoy stories in your voice, even when you're away</p>
                     </div>
                 </div>
-                <div class="hero-right">
-                    <h1 class="hero-title">Bedtime stories<br>in <span class="highlight">your voice</span></h1>
-                    <p class="hero-subtitle">Record once. Endless magical stories every night.</p>
-                    <div class="cta-container">
-                        <a href="#early-access" class="cta-button pulse">Get Early Access</a>
-                        <div class="app-store-badge">
-                            <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='40' viewBox='0 0 120 40'><rect width='120' height='40' rx='8' fill='%23000'/><text x='60' y='25' text-anchor='middle' fill='white' font-family='Arial' font-size='12'>Coming Soon</text></svg>" alt="Coming Soon to App Store">
-                        </div>
-                    </div>
-                </div>
             </div>
-            <div class="hero-mockup">
-                <img src="hero-mockup.jpg" alt="Nighty App Preview" class="mockup-image">
-            </div>
-        </div>
-        <div class="hero-gradient"></div>
-    </section>
+        </section>
 
-    <!-- How It Works Section -->
-    <section class="how-it-works">
-        <div class="container">
-            <h2 class="section-title">How it works</h2>
-            <div class="steps-grid">
-                <div class="step fade-in-up">
-                    <img src="feature-record.jpg" alt="Record Voice" class="step-image">
-                    <h3>Record your voice</h3>
-                </div>
-                <div class="step fade-in-up">
-                    <img src="feature-story.jpg" alt="Pick Story" class="step-image">
-                    <h3>Pick a story</h3>
-                </div>
-                <div class="step fade-in-up">
-                    <img src="feature-player.jpg" alt="Listen Together" class="step-image">
-                    <h3>Listen together</h3>
-                </div>
-            </div>
-        </div>
-    </section>
+        <div class="gradient-divider"></div>
 
-    <!-- Value Props Icons -->
-    <section class="value-icons">
-        <div class="container">
-            <div class="icons-grid">
-                <div class="icon-item">
-                    <div class="icon">💝</div>
-                    <span>Truly personal</span>
-                </div>
-                <div class="icon-item">
-                    <div class="icon">📵</div>
-                    <span>Screen-free bedtime</span>
-                </div>
-                <div class="icon-item">
-                    <div class="icon">🔄</div>
-                    <span>Fresh stories nightly</span>
-                </div>
-                <div class="icon-item">
-                    <div class="icon">🏠</div>
-                    <span>Comfort anywhere</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Social Proof -->
-    <section class="social-proof">
-        <div class="container">
-            <p class="proof-text">Trusted by 1,000+ parents</p>
-        </div>
-    </section>
-
-    <!-- Early Access Section -->
-    <section class="early-access" id="early-access">
-        <div class="container">
-            <div class="access-content">
-                <h2>Get early access</h2>
+        <!-- Email Capture Section -->
+        <section class="email-capture">
+            <div class="container">
+                <h2>Join the waitlist</h2>
+                <p>Be the first to know when we launch</p>
                 <form class="email-form" action="https://formspree.io/f/xplaceholder" method="POST">
-                    <input type="email" name="email" placeholder="Enter your email address" required>
-                    <button type="submit">Join Waitlist</button>
+                    <input type="email" name="email" class="email-input" placeholder="Enter your email" required>
+                    <button type="submit" class="submit-button">Join Waitlist</button>
                 </form>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-brand">
-                    <span class="logo">🌙 Nighty</span>
-                </div>
-                <div class="footer-links">
-                    <a href="#" class="footer-link">Privacy Policy</a>
-                    <a href="#" class="footer-link">Terms of Service</a>
-                </div>
+        <!-- Footer -->
+        <footer>
+            <p>&copy; 2026 MMTO. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2026 MMTO. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
-
-    <script src="script.js"></script>
+        </footer>
+    </div>
 </body>
 </html>
