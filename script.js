@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Intersection Observer for scroll animations
     const observerOptions = {
-        threshold: 0.1,
+        threshold: 0.2,
         rootMargin: '0px 0px -50px 0px'
     };
     
@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(element);
     });
     
-    // Smooth scroll for anchor links with magical easing
+    // Smooth scroll for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
         anchor.addEventListener('click', function(e) {
             e.preventDefault();
@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Enhanced form submission handling with magical feedback
+    // Enhanced form submission handling
     const emailForm = document.querySelector('.email-form');
     if (emailForm) {
         emailForm.addEventListener('submit', function(e) {
@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function() {
             button.textContent = '✨ Joining...';
             button.disabled = true;
             
-            // Reset button after a delay (formspree will redirect or show success)
+            // Reset button after a delay
             setTimeout(function() {
                 button.textContent = originalText;
                 button.disabled = false;
@@ -60,22 +60,109 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Enhanced parallax effect for hero section with stars
+    // Enhanced phone mockup interactions
+    const phoneScreens = document.querySelectorAll('.phone-screen, .step-screen');
+    phoneScreens.forEach(function(screen) {
+        screen.addEventListener('mouseenter', function() {
+            this.style.transform = 'scale(1.05) rotateY(5deg)';
+            this.style.boxShadow = '0 25px 80px rgba(0, 0, 0, 0.5), 0 0 0 8px rgba(255, 228, 160, 0.2)';
+        });
+        
+        screen.addEventListener('mouseleave', function() {
+            this.style.transform = 'scale(1) rotateY(0deg)';
+            this.style.boxShadow = '0 20px 60px rgba(0, 0, 0, 0.4), 0 0 0 8px rgba(255, 228, 160, 0.1)';
+        });
+    });
+    
+    // Mini phone hover effects
+    const miniPhones = document.querySelectorAll('.phone-mini');
+    miniPhones.forEach(function(phone) {
+        phone.addEventListener('mouseenter', function() {
+            const screen = this.querySelector('.step-screen');
+            if (screen) {
+                screen.style.transform = 'translateY(-8px) scale(1.05)';
+                screen.style.boxShadow = '0 15px 40px rgba(0, 0, 0, 0.4)';
+            }
+        });
+        
+        phone.addEventListener('mouseleave', function() {
+            const screen = this.querySelector('.step-screen');
+            if (screen) {
+                screen.style.transform = 'translateY(0) scale(1)';
+                screen.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.3)';
+            }
+        });
+    });
+    
+    // Enhanced app icon interaction
+    const appIconLarge = document.querySelector('.app-icon-large');
+    if (appIconLarge) {
+        appIconLarge.addEventListener('click', function() {
+            // Create magical sparkle effect
+            createSparkles(this);
+        });
+        
+        appIconLarge.addEventListener('mouseenter', function() {
+            this.style.transform = 'scale(1.1) rotate(5deg)';
+        });
+        
+        appIconLarge.addEventListener('mouseleave', function() {
+            this.style.transform = 'scale(1) rotate(0deg)';
+        });
+    }
+    
+    // Sparkle effect function
+    function createSparkles(element) {
+        const rect = element.getBoundingClientRect();
+        const sparkleCount = 12;
+        
+        for (let i = 0; i < sparkleCount; i++) {
+            const sparkle = document.createElement('div');
+            sparkle.innerHTML = ['✨', '🌟', '⭐', '💫'][Math.floor(Math.random() * 4)];
+            sparkle.style.position = 'fixed';
+            sparkle.style.left = (rect.left + rect.width / 2) + 'px';
+            sparkle.style.top = (rect.top + rect.height / 2) + 'px';
+            sparkle.style.fontSize = Math.random() * 10 + 16 + 'px';
+            sparkle.style.pointerEvents = 'none';
+            sparkle.style.zIndex = '9999';
+            sparkle.style.color = ['#FFD93D', '#FFE4A0', '#FF8A5C', '#FFB5C2'][Math.floor(Math.random() * 4)];
+            
+            document.body.appendChild(sparkle);
+            
+            // Animate sparkle
+            const angle = (i / sparkleCount) * Math.PI * 2;
+            const distance = Math.random() * 100 + 60;
+            const targetX = Math.cos(angle) * distance;
+            const targetY = Math.sin(angle) * distance;
+            
+            sparkle.animate([
+                { 
+                    transform: 'translate(0, 0) scale(0) rotate(0deg)', 
+                    opacity: 1 
+                },
+                { 
+                    transform: `translate(${targetX}px, ${targetY}px) scale(1) rotate(360deg)`, 
+                    opacity: 0 
+                }
+            ], {
+                duration: Math.random() * 400 + 800,
+                easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+            }).onfinish = () => sparkle.remove();
+        }
+    }
+    
+    // Parallax effect for hero phones
     let ticking = false;
     
     function updateParallaxEffects() {
         const scrolled = window.pageYOffset;
-        const stars = document.querySelector('.stars');
-        const heroIcon = document.querySelector('.hero-icon');
+        const heroPhone = document.querySelector('.phone-mockup .phone-screen');
         
-        if (stars) {
-            // Subtle star movement
-            stars.style.transform = `translateY(${scrolled * 0.2}px)`;
-        }
-        
-        if (heroIcon) {
-            // Gentle floating effect for the owl icon
-            heroIcon.style.transform = `translateY(${Math.sin(Date.now() * 0.001) * 5}px)`;
+        if (heroPhone && window.innerWidth > 768) {
+            // Gentle floating effect for hero phone
+            const float = Math.sin(Date.now() * 0.001) * 3;
+            const scrollOffset = scrolled * 0.1;
+            heroPhone.style.transform = `translateY(${float - scrollOffset}px)`;
         }
         
         ticking = false;
@@ -92,82 +179,59 @@ document.addEventListener('DOMContentLoaded', function() {
     if (window.innerWidth > 768 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         window.addEventListener('scroll', requestTick, { passive: true });
         
-        // Also run the floating animation
+        // Continuous floating animation
         setInterval(function() {
-            const heroIcon = document.querySelector('.hero-icon');
-            if (heroIcon && window.pageYOffset < 500) {
-                heroIcon.style.transform = `translateY(${Math.sin(Date.now() * 0.001) * 3}px)`;
+            const heroPhone = document.querySelector('.phone-mockup .phone-screen');
+            if (heroPhone && window.pageYOffset < 500) {
+                const float = Math.sin(Date.now() * 0.001) * 3;
+                heroPhone.style.transform += ` translateY(${float}px)`;
             }
-        }, 16); // ~60fps
+        }, 16);
     }
     
-    // Enhanced hover effects for interactive elements
-    const interactiveElements = document.querySelectorAll('.step, .prop, .cta-button, .app-icon');
-    interactiveElements.forEach(function(element) {
-        element.addEventListener('mouseenter', function() {
-            if (this.classList.contains('app-icon')) {
-                // Special effect for the owl icon
-                this.style.transform = 'scale(1.05) rotate(2deg)';
-            } else if (this.classList.contains('cta-button')) {
-                this.style.transform = 'translateY(-3px) scale(1.02)';
-            } else {
-                this.style.transform = 'translateY(-8px)';
-            }
-        });
-        
-        element.addEventListener('mouseleave', function() {
-            if (this.classList.contains('app-icon')) {
-                this.style.transform = 'scale(1) rotate(0deg)';
-            } else {
-                this.style.transform = 'translateY(0) scale(1)';
-            }
+    // Add click effects to CTA buttons
+    const ctaButtons = document.querySelectorAll('.cta-button');
+    ctaButtons.forEach(function(button) {
+        button.addEventListener('click', function(e) {
+            // Ripple effect
+            const ripple = document.createElement('span');
+            const rect = this.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+            
+            ripple.style.position = 'absolute';
+            ripple.style.width = size + 'px';
+            ripple.style.height = size + 'px';
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+            ripple.style.background = 'rgba(255, 248, 240, 0.3)';
+            ripple.style.borderRadius = '50%';
+            ripple.style.pointerEvents = 'none';
+            ripple.style.transform = 'scale(0)';
+            ripple.style.animation = 'ripple 0.6s ease-out';
+            
+            this.style.position = 'relative';
+            this.style.overflow = 'hidden';
+            this.appendChild(ripple);
+            
+            setTimeout(() => ripple.remove(), 600);
         });
     });
     
-    // Add magical click effect to the owl icon
-    const appIcon = document.querySelector('.app-icon');
-    if (appIcon) {
-        appIcon.addEventListener('click', function() {
-            // Create sparkle effect
-            createSparkles(this);
-        });
-    }
-    
-    // Sparkle effect function
-    function createSparkles(element) {
-        const rect = element.getBoundingClientRect();
-        const sparkleCount = 8;
-        
-        for (let i = 0; i < sparkleCount; i++) {
-            const sparkle = document.createElement('div');
-            sparkle.innerHTML = '✨';
-            sparkle.style.position = 'fixed';
-            sparkle.style.left = (rect.left + rect.width / 2) + 'px';
-            sparkle.style.top = (rect.top + rect.height / 2) + 'px';
-            sparkle.style.fontSize = '16px';
-            sparkle.style.pointerEvents = 'none';
-            sparkle.style.zIndex = '9999';
-            sparkle.style.color = '#FFD93D';
-            
-            document.body.appendChild(sparkle);
-            
-            // Animate sparkle
-            const angle = (i / sparkleCount) * Math.PI * 2;
-            const distance = 60;
-            const targetX = Math.cos(angle) * distance;
-            const targetY = Math.sin(angle) * distance;
-            
-            sparkle.animate([
-                { transform: 'translate(0, 0) scale(0)', opacity: 1 },
-                { transform: `translate(${targetX}px, ${targetY}px) scale(1)`, opacity: 0 }
-            ], {
-                duration: 800,
-                easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
-            }).onfinish = () => sparkle.remove();
+    // Add ripple animation
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes ripple {
+            to {
+                transform: scale(2);
+                opacity: 0;
+            }
         }
-    }
+    `;
+    document.head.appendChild(style);
     
-    // Add focus management for accessibility
+    // Focus management for accessibility
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Tab') {
             document.body.classList.add('user-is-tabbing');
@@ -178,64 +242,33 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.classList.remove('user-is-tabbing');
     });
     
-    // Add some magical easter eggs
-    let konamiCode = [];
-    const konamiSequence = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'KeyB', 'KeyA'];
-    
-    document.addEventListener('keydown', function(e) {
-        konamiCode.push(e.code);
-        if (konamiCode.length > konamiSequence.length) {
-            konamiCode.shift();
-        }
+    // Performance optimization
+    function preloadCriticalResources() {
+        const criticalImages = [
+            'app-home.jpg',
+            'app-player.jpg', 
+            'app-recording.jpg',
+            'app-icon.jpg'
+        ];
         
-        if (konamiCode.join(',') === konamiSequence.join(',')) {
-            // Easter egg: make it extra magical
-            document.body.style.animation = 'rainbow 2s ease-in-out';
-            createMagicalEffect();
-            konamiCode = [];
-        }
-    });
-    
-    function createMagicalEffect() {
-        const stars = document.querySelector('.stars');
-        if (stars) {
-            stars.style.animation = 'magicalTwinkle 3s ease-in-out';
-            setTimeout(() => {
-                stars.style.animation = '';
-            }, 3000);
-        }
+        criticalImages.forEach(function(src) {
+            const link = document.createElement('link');
+            link.rel = 'preload';
+            link.as = 'image';
+            link.href = src;
+            document.head.appendChild(link);
+        });
     }
+    
+    preloadCriticalResources();
 });
 
 // Handle window resize events
 window.addEventListener('resize', function() {
     // Recalculate any size-dependent features if needed
-}, { passive: true });
-
-// Optional: Add some Easter eggs or special interactions
-document.addEventListener('keydown', function(e) {
-    // Konami code or other fun interactions could go here
-    if (e.key === 'ArrowUp' && e.altKey) {
-        // Secret interaction - maybe show a fun animation
-        console.log('🌙 Sweet dreams! 🌟');
-    }
-});
-
-// Performance optimization: Preload critical resources
-function preloadCriticalResources() {
-    // Could preload any images or resources here if needed
-    const criticalImages = [
-        // Add any critical image URLs here
-    ];
-    
-    criticalImages.forEach(function(src) {
-        const link = document.createElement('link');
-        link.rel = 'preload';
-        link.as = 'image';
-        link.href = src;
-        document.head.appendChild(link);
+    const phones = document.querySelectorAll('.phone-screen');
+    phones.forEach(function(phone) {
+        // Reset any transforms on resize
+        phone.style.transform = '';
     });
-}
-
-// Call preload function
-preloadCriticalResources();
+}, { passive: true });
